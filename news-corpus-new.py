@@ -51,7 +51,7 @@ def initialize(picklename):
 
 # Year: 1990~, Month: 1-12, Day: 1-30 or 1-31
 
-def stack_data(mode=0)->None:
+def stack_data(mode=0,getter=getArticle)->None:
     #check for existing data. keep them. start from earliest date that hasn't been mined yet. store the data in old.pkl after a day's over.
     assert int(mode) == 0 or int(mode) == 1, "mode should be either 0 (for old) or 1 (for new)"
     if mode ==0:
@@ -65,7 +65,7 @@ def stack_data(mode=0)->None:
                 for day in range(1,31,1):
                     key = (year,month,day)
                     if not key in data.keys():
-                        data[key] = getArticle(year,month,day)
+                        data[key] = getter(year,month,day)
                     print(key)
                     pickle.dump(data,open("old.pkl","wb"))
     if mode ==1:
@@ -79,7 +79,7 @@ def stack_data(mode=0)->None:
                 for day in range(1,31,1):
                     key = (year,month,day)
                     if not key in data.keys():
-                        data[key] = getArticle(year,month,day)
+                        data[key] = getter(year,month,day)
                     print(key)
                     pickle.dump(data,open("new.pkl","wb"))
 
@@ -92,6 +92,3 @@ def revivie_known_sinko():
         the_set = the_set|set(sent[1])
     g = open("known_sinko_list.pkl","wb")
     pickle.dump(the_set,g)
-
-# revivie_known_sinko()
-stack_data()
