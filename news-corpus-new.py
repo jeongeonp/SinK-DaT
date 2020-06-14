@@ -51,22 +51,37 @@ def initialize(picklename):
 
 # Year: 1990~, Month: 1-12, Day: 1-30 or 1-31
 
-def stack_data():
+def stack_data(mode=0)->None:
     #check for existing data. keep them. start from earliest date that hasn't been mined yet. store the data in old.pkl after a day's over.
-    try:
-        data = pickle.load(open("old.pkl","rb"))
-    except:
-        data = dict()
-    for year in range(1990,1995,1):
-        for month in range(1,12,1):
-            for day in range(1,31,1):
-                key = (year,month,day)
-                if not key in data.keys():
-                    data[key] = getArticle(year,month,day)
-                print(key)
-
-                pickle.dump(data,open("old.pkl","wb"))
-
+    assert int(mode) == 0 or int(mode) == 1, "mode should be either 0 (for old) or 1 (for new)"
+    if mode ==0:
+        try:
+            data = pickle.load(open("old.pkl","rb"))
+        except:
+            print("old.pkl is not found. creating a new file.")
+            data = dict()
+        for year in range(1990,1995,1):
+            for month in range(1,12,1):
+                for day in range(1,31,1):
+                    key = (year,month,day)
+                    if not key in data.keys():
+                        data[key] = getArticle(year,month,day)
+                    print(key)
+                    pickle.dump(data,open("old.pkl","wb"))
+    if mode ==1:
+        try:
+            data = pickle.load(open("new.pkl","rb"))
+        except:
+            print("new.pkl is not found. creating a new file.")
+            data = dict()
+        for year in range(2010,2015,1):
+            for month in range(1,12,1):
+                for day in range(1,31,1):
+                    key = (year,month,day)
+                    if not key in data.keys():
+                        data[key] = getArticle(year,month,day)
+                    print(key)
+                    pickle.dump(data,open("new.pkl","wb"))
 
 def revivie_known_sinko():
     f = open("old.pkl","rb")
