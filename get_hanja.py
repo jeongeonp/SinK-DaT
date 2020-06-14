@@ -5,7 +5,7 @@ from urllib.parse import quote
 import pickle
 from counter import trigram_getter
 from collections import Counter
-from pickle_initialize import initialize
+from pickle_helper import initialize
 
 def get_ch(string):
     ans = [] #(char,num) num=0 for KOR // num=1 for CH // num=2 for ASCII(includes Eng alphabet) // num=3 for something else
@@ -134,17 +134,6 @@ def annotate_hanja(kkma):
         k.close()
         
 
-def load_data(filename="old.pkl"):
-    f = open(filename,"rb")
-    data = pickle.load(f)
-    f.close()
-    return data
-
-def store_data(filename,data):
-    f = open(filename,"wb")
-    pickle.dump(data,f)
-    f.close()
-    return data
 
 # annotate_hanja(Kkma())
 

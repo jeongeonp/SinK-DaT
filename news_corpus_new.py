@@ -6,7 +6,6 @@ from urllib import request
 from bs4 import BeautifulSoup
 import pandas as pd
 import random
-import pickle
 
 
 def getArticle(year, month, day):

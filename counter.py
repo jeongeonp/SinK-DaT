@@ -26,4 +26,12 @@ def trigram_getter(tagged_sentence:list)->Counter:
     return Counter(ngrams(only_word,3))
 
 
+def trigram_analyze(word:str,dic:dict)->dict:
+    trigrams_with_word = dict()
+    for key in dic.keys():
+        if word in key:
+            trigrams_with_word[key] = dic[key]
+    return trigrams_with_word
+
+
 

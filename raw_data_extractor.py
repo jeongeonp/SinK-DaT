@@ -30,3 +30,6 @@ def revivie_known_sinko():
         the_set = the_set|set(sent[1])
     g = open("known_sinko_list.pkl","wb")
     pickle.dump(the_set,g)
+
+
+# stack_data("old.py",getArticle)
