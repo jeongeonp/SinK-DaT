@@ -6,7 +6,6 @@ from urllib import request
 from bs4 import BeautifulSoup
 import pandas as pd
 import random
-from news-corpus-old import stack_data
 
 
 def getTitleList(year, month, day):

@@ -1,15 +1,9 @@
-from news-corpus-new import *
-from news-corpus-old import *
-
-def initialize(picklename):
-    #DO NOT RUN THIS FUNCTION IF A FILE ALREADY EXISTS UNDER THE NAME "picklename"
-    f = open(picklename,"wb")
-    a = dict()
-    pickle.dump(a,f)
+from news_corpus_new import *
+from news_corpus_old import *
 
 # Year: 1990~, Month: 1-12, Day: 1-30 or 1-31
 
-def stack_data(filename:str,getter:FUNCTION)->None:
+def stack_data(filename:str,getter:type(abs))->None:
     #check for existing data. keep them. start from earliest date that hasn't been mined yet. store the data in old.pkl after a day's over.
     try:
         data = pickle.load(open(filename,"rb"))
@@ -21,10 +15,11 @@ def stack_data(filename:str,getter:FUNCTION)->None:
             for day in range(1,31,1):
                 key = (year,month,day)
                 if not key in data.keys():
-                    data[key] = getter(year,month,day)
+                    got = getter(year,month,day)
+                    if len(got) >0:
+                        data[key] = got
                 pickle.dump(data,open(filename,"wb"))
                 print(key)
-
 
 def revivie_known_sinko():
     f = open("old.pkl","rb")

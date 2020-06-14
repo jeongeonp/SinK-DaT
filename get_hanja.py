@@ -3,14 +3,9 @@ from konlpy.tag import Kkma
 from urllib.request import urlopen
 from urllib.parse import quote
 import pickle
-#美 --> 미국
-#타당하다 --> 마땅하다
-#妥當하다 --> 타당하다 --> 마땅하다
-
-# str1="妥當하다"
-# str_enc = str1.encode('gbk','strict')
-# print(str_enc)
-# print(str_enc.decode('gbk','strict'))
+from counter import trigram_getter
+from collections import Counter
+from pickle_initialize import initialize
 
 def get_ch(string):
     ans = [] #(char,num) num=0 for KOR // num=1 for CH // num=2 for ASCII(includes Eng alphabet) // num=3 for something else
@@ -56,7 +51,7 @@ def naver_hanja(word, known_list):
         for line in response:
             line = line.decode("utf-8")
             if word in line:
-                known_list.append(text_word)
+                known_list.add(text_word)
                 return (True,known_list)
     return (False,False)
     # url = urllib.request.urlopen(url)
@@ -66,13 +61,14 @@ def get_sinko(sentence,kkma,known_list):
     #('이', 'MDT'), ('책', 'NNG'), ('은', 'JX'), ('매우', 'MAG'), ('타당', 'XR'), ('하', 'XSA'), ('다', 'EFN'), ('.', 'SF')]
     ans = []
     tagged_sentence = kkma.pos(sentence)
+    trigram = trigram_getter(tagged_sentence)
     for tup in tagged_sentence:
         nh_return = naver_hanja(tup[0],known_list)
         if nh_return[0]: 
             ans.append(tup[0])
             if nh_return[1]:
                 known_list = nh_return[1]
-    return ([sentence,ans],known_list)
+    return ([sentence,ans,tagged_sentence],known_list,trigram)
 
 def see_example():
     kkma = Kkma()
@@ -96,6 +92,10 @@ def annotate_hanja(kkma):
     known_list = pickle.load(f2)
     f2.close()
 
+    f3 = open("trigrams.pkl","rb")
+    all_trigrams = Counter(pickle.load(f3))
+    f3.close()
+
     if "annotated" in data.keys():
         annotated = data["annotated"]
     else:
@@ -110,9 +110,9 @@ def annotate_hanja(kkma):
         count = 0
 
         for sent in sentences:
-            hanja_tuple,known_list = get_sinko(sent,kkma,known_list)
+            hanja_tuple,known_list,trigram = get_sinko(sent,kkma,known_list)
             annotation.append(hanja_tuple)
-
+            all_trigrams += trigram
             count +=1
             print(hanja_tuple)
             print(str(count)+"/"+str(l))
@@ -128,6 +128,10 @@ def annotate_hanja(kkma):
         g = open("old.pkl","wb")
         pickle.dump(data,g)
         g.close()
+
+        k = open("trigrams.pkl","wb")
+        pickle.dump(dict(all_trigrams),k)
+        k.close()
         
 
 def load_data(filename="old.pkl"):
@@ -142,8 +146,7 @@ def store_data(filename,data):
     f.close()
     return data
 
-a = load_data()
-print(a[(1990,1,2)]==a[(1990,1,3)])
+# annotate_hanja(Kkma())
 
 #Data Organisation
 #key = (1990,1,1), (1990,1,2) .... up to somewhere near 1990 september.

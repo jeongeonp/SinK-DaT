@@ -1,4 +1,6 @@
 from collections import Counter
+from konlpy.tag import Kkma
+from nltk import ngrams
 import pickle
 
 def get_counter(filename:str)->Counter:
@@ -14,6 +16,14 @@ def get_counter(filename:str)->Counter:
 
     return all_hanjas
 
+def trigram_getter(tagged_sentence:list)->Counter:
+    stop = ["ETD","EPT","EFN","SF","JKO","EMO","JX","JC"]
+    new_tag = tagged_sentence.copy()
+    for tag in tagged_sentence:
+        if tag[1].startswith("J") or tag[1].startswith("E") or tag[1].startswith("S"):
+            new_tag.remove(tag)
+    only_word = [tup[0] for tup in new_tag]
+    return Counter(ngrams(only_word,3))
 
 
 
