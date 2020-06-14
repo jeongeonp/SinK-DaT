@@ -142,6 +142,9 @@ def store_data(filename,data):
     f.close()
     return data
 
+a = load_data()
+print(a[(1990,1,2)]==a[(1990,1,3)])
+
 #Data Organisation
 #key = (1990,1,1), (1990,1,2) .... up to somewhere near 1990 september.
 #value = list of 'sentence's

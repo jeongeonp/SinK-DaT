@@ -62,7 +62,21 @@ def stack_data():
             for day in range(1,31,1):
                 key = (year,month,day)
                 if not key in data.keys():
-                    data[key] = getArticle(2005,6,15)
+                    data[key] = getArticle(year,month,day)
                 print(key)
 
                 pickle.dump(data,open("old.pkl","wb"))
+
+
+def revivie_known_sinko():
+    f = open("old.pkl","rb")
+    data = pickle.load(f)[(1990,1,1)]
+    f.close()
+    the_set = set()
+    for sent in data:
+        the_set = the_set|set(sent[1])
+    g = open("known_sinko_list.pkl","wb")
+    pickle.dump(the_set,g)
+
+# revivie_known_sinko()
+stack_data()
