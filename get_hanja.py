@@ -86,6 +86,8 @@ def see_example():
     collect_sinko(get_ch("America는 한자어로 美國이라고 써요."))
 
 def annotate_hanja(kkma):
+    # just execute this function.
+    # it will begin from where it ended last time. takes about 3 hrs to finish one day. Quitting before in middle of a day will BLOW your progress.
     f = open("old.pkl","rb")
     data = pickle.load(f)
     f.close()
@@ -117,7 +119,6 @@ def annotate_hanja(kkma):
             
             g2 = open("known_sinko_list.pkl","wb")
             pickle.dump(known_list,g2)
-            print(known_list)
             g2.close()
 
         data[key] = annotation
