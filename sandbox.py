@@ -1,12 +1,10 @@
 import pickle
-f = open("new.pkl","rb")
-d = pickle.load(f)
-f.close()
 
 
-g = open("old.pkl","wb")
-pickle.dump(d,g)
-print(d.keys())
+
+g = open("trigrams.pkl","rb")
+a = pickle.load(g)
+print(a)
 # from konlpy.tag import Kkma
 
 # kkma = Kkma()

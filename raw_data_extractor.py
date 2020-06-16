@@ -1,6 +1,6 @@
 from news_corpus_new import *
 from news_corpus_old import *
-
+import pickle
 # Year: 1990~, Month: 1-12, Day: 1-30 or 1-31
 
 def stack_data(filename:str,getter:type(abs))->None:
@@ -14,6 +14,7 @@ def stack_data(filename:str,getter:type(abs))->None:
         for month in range(1,12,1):
             for day in range(1,31,1):
                 key = (year,month,day)
+                print(key)
                 if not key in data.keys():
                     got = getter(year,month,day)
                     if len(got) >0:
@@ -32,4 +33,4 @@ def revivie_known_sinko():
     pickle.dump(the_set,g)
 
 
-# stack_data("old.py",getArticle)
+stack_data("old.pkl",getArticle)

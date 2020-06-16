@@ -105,21 +105,31 @@ def annotate_hanja(kkma):
         if key in annotated: continue
         sentences = data[key]
         annotation = []
-
+        temp_annotated = []
         l = len(sentences)
         count = 0
+        while len(temp_annotated)< l:
+            try:
+                for s in range(l):
+                    if s in temp_annotated:
+                        print(s, " was skipped")
+                        continue
+                    sent = sentences[s]
+                    hanja_tuple,known_list,trigram = get_sinko(sent,kkma,known_list)
+                    annotation.append(hanja_tuple)
+                    all_trigrams += trigram
+                    count +=1
+                    # print(hanja_tuple)
+                    print(trigram)
+                    print(str(count)+"/"+str(l))
+                    
+                    g2 = open("known_sinko_list.pkl","wb")
+                    pickle.dump(known_list,g2)
+                    g2.close()
+                    temp_annotated.append(s)
+            except:
+                continue
 
-        for sent in sentences:
-            hanja_tuple,known_list,trigram = get_sinko(sent,kkma,known_list)
-            annotation.append(hanja_tuple)
-            all_trigrams += trigram
-            count +=1
-            print(hanja_tuple)
-            print(str(count)+"/"+str(l))
-            
-            g2 = open("known_sinko_list.pkl","wb")
-            pickle.dump(known_list,g2)
-            g2.close()
 
         data[key] = annotation
         annotated.append(key)
@@ -132,10 +142,13 @@ def annotate_hanja(kkma):
         k = open("trigrams.pkl","wb")
         pickle.dump(dict(all_trigrams),k)
         k.close()
+        print("Complete!!!!")
+        print(len(list(dict(all_trigrams).keys)))
+        break
         
 
 
-# annotate_hanja(Kkma())
+annotate_hanja(Kkma())
 
 #Data Organisation
 #key = (1990,1,1), (1990,1,2) .... up to somewhere near 1990 september.
