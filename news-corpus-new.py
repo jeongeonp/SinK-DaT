@@ -46,6 +46,6 @@ def getArticle(year, month, day):
 
 
 # Year: 1990~, Month: 1-12, Day: 1-30 or 1-31
-result = getArticle(2005, 6, 14)
+result = getArticle(2005, 6, 15)
 
 print(result)
