@@ -1,13 +1,4 @@
-import pickle
-
-
-
-g = open("trigrams.pkl","rb")
-a = pickle.load(g)
-print(a)
-# from konlpy.tag import Kkma
-
-# kkma = Kkma()
-# sentence = "안중근 의사와 외과 의사는 좋은 사람이다."
-# tagged_sentence = kkma.pos(sentence)
-# print(tagged_sentence)
+hexstring = "645b d0b1 682f 491a b1fe c993 9309 3ca4"
+bo = bytes.fromhex(hexstring) 
+ascii = bo.decode("utf-16")
+print(ascii)
