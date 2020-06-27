@@ -14,14 +14,14 @@ okt = Okt()
 ROOT_URL = "http://korlex.pusan.ac.kr/search/WebApplication2/KorLex_SearchPage.aspx"
 
 easy_vocab_list = []
-with open('./TOPIC_vocab_list.csv', 'r') as csvfile:
+with open('./TOPIC_vocab_list.csv', 'r', encoding='UTF-8') as csvfile:
     for line in csvfile.readlines():
         array = line.split(',')
         easy = array[1].split('0')[0]
         easy = easy.split('1')[0]
         easy_vocab_list.append(easy)
 
-text_file = open("Textbook_middle.txt", "r")
+text_file = open("Textbook_middle.txt", "r", encoding='UTF-8')
 text = text_file.read()
 easy_corpus_list = text.split()
 
@@ -64,15 +64,24 @@ def score_with_hanja_level(hanjas):
         score += int(level)
     return int(score / len(hanjas))
 
-example_pairs = [('의사', '醫師'), ('학교', '學校'), ('번뇌', '煩惱')]
+#example_pairs = [('의사', '醫師'), ('학교', '學校'), ('번뇌', '煩惱')]
 
-for pair in example_pairs:
+all_pairs = []
+file = open("difficulty_list.txt", "r", encoding='UTF-8')
+for p in file.readlines():
+    word_pair = p.split()
+    all_pairs.append((word_pair[0], word_pair[1]))
+file.close()
+
+for pair in all_pairs:
     word, ch = pair
     stemmed = preprocess_word(word)[0][0]
-    easy_score = score_with_easy_corpus(stemmed) + score_with_easy_list(stemmed)
-    if not easy_score:
-        print("detected difficult word: " +  stemmed)
-        print("level is " + str(score_with_hanja_level(ch)))
+    print("detected difficult word: " +  stemmed)
+    print("level is " + str(score_with_hanja_level(ch)))
+    #easy_score = score_with_easy_corpus(stemmed) + score_with_easy_list(stemmed)
+    #if not easy_score:
+    #    print("detected difficult word: " +  stemmed)
+    #    print("level is " + str(score_with_hanja_level(ch)))
 
 
 
