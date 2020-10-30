@@ -1,7 +1,6 @@
 # SinK-DaT (Sino-Korean Detector and Translator)
 CS372 Natural Language Processing with Python, Project, 2020 Spring
 
-# MSR Voice Input, Group 3
 #### Mina Huh, Seokjun Kim, Jeongeon Park, Juhoon Lee, Hyunchang Oh
 
 ## Abstract
